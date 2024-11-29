@@ -1,6 +1,8 @@
 package com.example.Hotels.data;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.util.UUID;
 
@@ -26,9 +28,11 @@ public class Room {
     private Boolean availability;
 
     @Column(name = "created_at", updatable = false)
+    @CreationTimestamp
     private String createdAt;
 
     @Column(name = "updated_at")
+    @UpdateTimestamp
     private String updatedAt;
 
 

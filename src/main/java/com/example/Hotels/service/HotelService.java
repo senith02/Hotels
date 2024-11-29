@@ -24,4 +24,18 @@ public class HotelService {
     public Hotel addHotel(Hotel hotel){
         return hotelRepository.save(hotel);
     }
+
+    public Hotel updateHotel(Hotel hotel){
+        return hotelRepository.save(hotel);
+    }
+
+    public boolean deleteHotel(String hotelId){
+        if(hotelRepository.existsById(hotelId)){
+            hotelRepository.deleteById(hotelId);
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
 }
