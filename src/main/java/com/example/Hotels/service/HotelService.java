@@ -17,6 +17,10 @@ public class HotelService {
         return hotelRepository.findAll();
     }
 
+    public Hotel getHotelById(String hotelId){
+        return hotelRepository.findById(hotelId).orElse(null);
+    }
+
     public List<Hotel> getHotelByName(String hotelName){
         return hotelRepository.getHotelByName(hotelName);
     }

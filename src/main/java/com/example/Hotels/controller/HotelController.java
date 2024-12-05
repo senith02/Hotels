@@ -20,6 +20,11 @@ public class HotelController {
         return hotelService.getHotels();
     }
 
+    @GetMapping(path = "/hotels/{hotelId}")
+    public Hotel getHotelById(@PathVariable String hotelId){
+        return hotelService.getHotelById(hotelId);
+    }
+
     // 2. GET /hotels?name={name}
     @GetMapping(path = "/hotels",params = "name")
     public List<Hotel> getHotelsByName(@RequestParam String name) {

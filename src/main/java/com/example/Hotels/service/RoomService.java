@@ -17,6 +17,10 @@ public class RoomService {
         return roomRepository.findAll();
     }
 
+    public Room getRoomByRoomId(String roomId) {
+        return roomRepository.findById(roomId).orElse(null);
+    }
+
     public List<Room> getRoomByHotelId(String hotelId) {
         return roomRepository.findRoomByHotelId(hotelId);
     }
