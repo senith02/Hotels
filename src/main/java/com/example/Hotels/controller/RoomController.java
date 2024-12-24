@@ -3,8 +3,10 @@ package com.example.Hotels.controller;
 import com.example.Hotels.data.Room;
 import com.example.Hotels.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -48,4 +50,13 @@ public class RoomController {
     public boolean deleteRoom(@PathVariable String id) {
         return roomService.deleteRoom(id);
     }
+
+    // 6. GET /hotels/{hotelId}/availablerooms?checkIn={checkIn}&checkOut={checkOut}
+    @GetMapping(path = "{hotelId}/availablerooms")
+    public List<Room> getAvailableRooms(@PathVariable String hotelId,
+                                        @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkIn,
+                                        @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkOut) {
+        return roomService.getAvailableRooms(hotelId, checkIn, checkOut);
+    }
+
 }
