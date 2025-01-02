@@ -24,8 +24,8 @@ public class Room {
     @Column(name = "price_per_night", nullable = false)
     private double pricePerNight;
 
-    @Column(name = "availability", nullable = false)
-    private Boolean availability;
+//    @Column(name = "availability", nullable = false)
+//    private Boolean availability;
 
     @Column(name = "created_at", updatable = false)
     @CreationTimestamp
@@ -60,13 +60,13 @@ public class Room {
         this.roomType = roomType;
     }
 
-    public Boolean getAvailability() {
-        return availability;
-    }
-
-    public void setAvailability(Boolean availability) {
-        this.availability = availability;
-    }
+//    public Boolean getAvailability() {
+//        return availability;
+//    }
+//
+//    public void setAvailability(Boolean availability) {
+//        this.availability = availability;
+//    }
 
     public Double getPrice_per_night() {
         return pricePerNight;

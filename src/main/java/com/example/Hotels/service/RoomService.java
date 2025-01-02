@@ -60,30 +60,61 @@ public class RoomService {
     }
 
     //get available rooms
-    public List<Room> getAvailableRooms(String hotelId, LocalDate checkIn, LocalDate checkOut) {
-        //Fetch all rooms for the selected hotel
+    public List<Room> getAvailableRoomsByHotelId(String hotelId, LocalDate checkIn, LocalDate checkOut) {
+        // Fetch all rooms for the selected hotel
         List<Room> rooms = getRoomByHotelId(hotelId);
 
-        //Extract room IDs
+        // Extract room IDs
         List<String> roomIds = rooms.stream().map(Room::getRoomId).collect(Collectors.toList());
 
-        //Call Booking Microservice to check room availability
+        // Call Booking Microservice to check room availability
         String url = String.format(
-                "http://booking-service/roomAvailability?roomIds=%s&startDate=%s&endDate=%s",
+                "http://localhost:8081/booking/roomAvailability?roomIds=%s&startDate=%s&endDate=%s",
                 String.join(",", roomIds), checkIn, checkOut
         );
 
         // Make the HTTP GET request
         ResponseEntity<RoomAvailability[]> response = restTemplate.getForEntity(url, RoomAvailability[].class);
 
-        //Filter available rooms
-        List<String> availableRoomIds = Arrays.stream(response.getBody())
-                .filter(RoomAvailability::isAvailable)
+        // Filter out rooms that are booked during the requested period
+        List<String> unavailableRoomIds = Arrays.stream(response.getBody())
+                .filter(roomAvailability -> checkIn != null && checkOut != null &&
+                        checkIn.isBefore(roomAvailability.getEndDate()) && checkOut.isAfter(roomAvailability.getStartDate())
+                )
                 .map(RoomAvailability::getRoomId)
                 .collect(Collectors.toList());
 
         return rooms.stream()
-                .filter(room -> availableRoomIds.contains(room.getRoomId()))
+                .filter(room -> !unavailableRoomIds.contains(room.getRoomId()))
+                .collect(Collectors.toList());
+    }
+
+    public List<Room> getAvailableRooms(LocalDate checkIn, LocalDate checkOut) {
+        //Fetch all rooms
+        List<Room> rooms = getAllRooms();
+
+        //Extract room IDs
+        List<String> roomIds = rooms.stream().map(Room::getRoomId).collect(Collectors.toList());
+
+        //Call Booking Microservice to check room availability
+        String url = String.format(
+                "http://localhost:8081/roomAvailability?roomIds=%s&startDate=%s&endDate=%s",
+                String.join(",", roomIds), checkIn, checkOut
+        );
+
+        // Make the HTTP GET request
+        ResponseEntity<RoomAvailability[]> response = restTemplate.getForEntity(url, RoomAvailability[].class);
+
+        //Filter out rooms that are booked during the requested period
+        List<String> unavailableRoomIds = Arrays.stream(response.getBody())
+                .filter(roomAvailability ->
+                        (checkIn.isBefore(roomAvailability.getEndDate()) && checkOut.isAfter(roomAvailability.getStartDate()))
+                )
+                .map(RoomAvailability::getRoomId)
+                .collect(Collectors.toList());
+
+        return rooms.stream()
+                .filter(room -> unavailableRoomIds.contains(room.getRoomId()))
                 .collect(Collectors.toList());
     }
 

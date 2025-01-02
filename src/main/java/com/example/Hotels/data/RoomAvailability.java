@@ -1,16 +1,23 @@
 package com.example.Hotels.data;
 
-import jakarta.persistence.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-
-import java.util.UUID;
+import java.time.LocalDate;
 
 public class RoomAvailability {
-    private String roomId;       // Room ID
-    private boolean isAvailable; // Availability status
+    private String availabilityId;
+    private String roomId;
+    private LocalDate startDate;
+    private LocalDate endDate;
+    private boolean available;
 
     // Getters and Setters
+    public String getAvailabilityId() {
+        return availabilityId;
+    }
+
+    public void setAvailabilityId(String availabilityId) {
+        this.availabilityId = availabilityId;
+    }
+
     public String getRoomId() {
         return roomId;
     }
@@ -19,12 +26,27 @@ public class RoomAvailability {
         this.roomId = roomId;
     }
 
-    public boolean isAvailable() {
-        return isAvailable;
+    public LocalDate getStartDate() {
+        return startDate;
     }
 
-    public void setAvailable(boolean isAvailable) {
-        this.isAvailable = isAvailable;
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
+    }
+
+    public LocalDate getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
+    }
+
+    public boolean isAvailable() {
+        return available;
+    }
+
+    public void setAvailable(boolean available) {
+        this.available = available;
     }
 }
-

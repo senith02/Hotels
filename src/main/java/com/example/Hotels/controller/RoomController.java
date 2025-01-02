@@ -52,11 +52,18 @@ public class RoomController {
     }
 
     // 6. GET /hotels/{hotelId}/availablerooms?checkIn={checkIn}&checkOut={checkOut}
-    @GetMapping(path = "{hotelId}/availablerooms")
-    public List<Room> getAvailableRooms(@PathVariable String hotelId,
+    @GetMapping(path = "hotels/{hotelId}/availablerooms")
+    public List<Room> getAvailableRoomsByHotelId(@PathVariable String hotelId,
                                         @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkIn,
                                         @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkOut) {
-        return roomService.getAvailableRooms(hotelId, checkIn, checkOut);
+        return roomService.getAvailableRoomsByHotelId(hotelId, checkIn, checkOut);
     }
+
+//    // 7. GET /availablerooms?checkIn={checkIn}&checkOut={checkOut}
+//    @GetMapping(path = "/availablerooms")
+//    public List<Room> getAvailableRooms(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkIn,
+//                                        @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkOut ){
+//        return roomService.getAvailableRooms(checkIn, checkOut);
+//    }
 
 }

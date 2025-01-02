@@ -15,4 +15,6 @@ public interface RoomRepository extends JpaRepository<Room, String> {
     @Query("select r from Room r where r.roomId =?1")
     public Room findRoomById(String roomId);
 
+
+
 }
